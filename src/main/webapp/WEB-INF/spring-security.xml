@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/c"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <http auto-config="true">
+        <intercept-url pattern="/only_for_user" access="hasRole(ROLE_USER)" />
+        <intercept-url pattern="/only_for_admin" access="hasRole('ROLE_ADMIN')" />
+        <form-login
+                login-page="/"
+                default-target-url="/only_for_user"
+                authentication-failure-url="/login?403"
+                username-parameter="username"
+                password-parameter="password" />
+        <csrf/>
+    </http>
+
+    <authentication-manager>
+        <authentication-provider>
+            <user-service>
+                <user name="lal" password="lol" authorities="ROLE_USER" />
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+
+</beans>
